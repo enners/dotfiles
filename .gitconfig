@@ -1,0 +1,10 @@
+[user]
+	name = Knut Enners
+	email = knutenners+git@gmail.com
+[core]
+	editor = vi
+	excludesfile = /home/knut/.gitignore
+[merge]
+	tool = vimdiff
+[push]
+	default = simple
