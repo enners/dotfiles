@@ -1,10 +1,10 @@
-Xft.dpi:	125
+Xft.dpi:	210
 
 Xcursor.theme: DMZ-White
-URxvt.font:                xft:Ubuntu\\ Mono:pixelsize=16:antialiased=true
-URxvt.boldFont:            xft:Ubuntu\\ Mono:pixelsize=16:bold
-URxvt.italicFont:          xft:Ubuntu\\ Mono:pixelsize=16:italic
-URxvt.boldItalicFont:      xft:Ubuntu\\ Mono:pixelsize=16:bold:italic
+URxvt.font:                xft:Ubuntu\\ Mono:pixelsize=24:antialiased=true
+URxvt.boldFont:            xft:Ubuntu\\ Mono:pixelsize=24:bold
+URxvt.italicFont:          xft:Ubuntu\\ Mono:pixelsize=24:italic
+URxvt.boldItalicFont:      xft:Ubuntu\\ Mono:pixelsize=24:bold:italic
 
 URxvt*color0:              #101218
 URxvt*color1:              #ee829f
@@ -38,8 +38,8 @@ urxvt.borderLess:          false
 URxvt.scrollBar:           false
 URxvt.perl-ext-common:     matcher,resize-font,selection-to-clipboard
 URxvt.keysym.F11:          perl:fullscreen:switch
-URxvt.resize-font.smaller: C-Down
-URxvt.resize-font.bigger:  C-Up
+URxvt.resize-font.smaller: C-Up
+URxvt.resize-font.bigger:  C-Down
 URxvt.url-launcher:        /usr/bin/xdg-open
 URxvt.keysym.M-Delete:     perl:matcher:list
 URxvt.colorUL:             #7780a1

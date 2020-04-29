@@ -1,22 +1,39 @@
 # shell env
-export EDITOR="/usr/bin/vim"
 export LANG="de_DE.utf8"
-export LC_MESSAGES="C"
-export LOCATE_PATH="${HOME}/.cache/mlocate.db"
-export PATH=$PATH:$HOME/bin/scala/bin:$HOME/bin/sbt/bin
-alias ll='ls -lah'
-alias signal="/usr/bin/chromium-browser \
-    --profile-directory=Default \
-    --app-id=bikioccmkafdpakkkcpdbppfkghcmihk"
-alias gnucash="env LC_MESSAGES=de_DE.utf8 gnucash"
+export EDITOR="/sbin/nvim"
+export VISUAL="/sbin/nvim"
+export LC_MESSAGES="de_DE.utf8"
+
+# alias
+alias vi="nvim"
+alias caja="caja --no-desktop"
+alias wakepancho="wol 00:24:1D:DC:B6:93"
+alias haltpancho="ssh -t pancho 'sudo /sbin/poweroff'"
+alias zi="sudo extpool.sh"
+alias zx="sudo zpool export extpool"
+
+# gpu accel
+export VDPAU_DRIVER=va_gl
 
 # cd backup
 alias cdbackup='abcde -o flac -acddb,tag,playlist,cue,move,clean -N -x'
 
 # go
-export GOROOT=/usr/local/lib/go
+export GOROOT=/snap/go/current
 export GOPATH=$HOME/dev/go
-export PATH=$PATH:$GOPATH/bin
-# suckless terminal
-#alias st="stterm -f 'Ubuntu Mono:pixelsize=24' -T '$USER@$HOSTNAME: $PWD'"
+
+export PATH=~/bin:$PATH:$GOPATH/bin
+
+# fix wayland
+export _JAVA_AWT_WM_NONREPARENTING=1
+export MOZ_ENABLE_WAYLAND=1
+export XKB_DEFAULT_LAYOUT=de
+
+# nnn
+export NNN_PLUG='s:open-selected $nnn'
+
+export JAVA_HOME="/usr/lib/jvm/default"
+
+
+export PATH="$HOME/.cargo/bin:$PATH"
 
