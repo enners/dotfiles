@@ -2,23 +2,22 @@
 " general
 let mapleader = "\<Space>"
 syntax on
-filetype off
 filetype plugin indent on
 colorscheme default
 set autoindent
 set autowrite
 set backspace=indent,eol,start
 "set backupdir=/tmp "coc has problems with backupfiles
+set diffopt+=vertical
 set encoding=utf-8
 set mouse=a
 set number
-set nocompatible
 set nowrap
 set ruler		" show the cursor position all the time
 set scrolloff=3
 set showcmd		" display incomplete commands
 set shiftwidth=4
-set splitbelow
+set splitright
 set tabstop=4
 " search
 set hlsearch
@@ -49,7 +48,6 @@ call plug#begin('~/.local/share/vim/plugged')
 " editor
 Plug 'godlygeek/tabular'	" text alignment
 Plug 'airblade/vim-rooter'	" workdir to git-root
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'		" fuzzy search
 " language support
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -68,6 +66,9 @@ nnoremap <leader><leader> <c-^>
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
+vnoremap <C-h> :nohlsearch<cr>
+nnoremap <C-h> :nohlsearch<cr>
+nnoremap <leader>f :Rg
 
 " go
 let g:go_gmt_command = "goimports"
@@ -111,12 +112,10 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-
-nmap <leader>rn <Plug>(coc-rename)
+nmap <S-F6>rn <Plug>(coc-rename)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -125,9 +124,12 @@ function! s:show_documentation()
   endif
 endfunction
 
-"
-"
+" jump to next/previous error
+nmap <silent> <F2>   <Plug>(coc-diagnostic-next-error)
+nmap <silent> <S-F2> <Plug>(coc-diagnostic-prev-error)
 
+"
+"
 " file type preferences
 autocmd FileType markdown setlocal tw=80 et ts=2 sw=2
 autocmd FileType text setlocal tw=80

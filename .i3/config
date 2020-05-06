@@ -15,7 +15,7 @@ set $mod Mod4
 
 # Font for window titles. ISO 10646 = Unicode
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:Ubuntu Sans Mono 11
+font pango:Ubuntu Sans Mono 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -34,6 +34,7 @@ bindsym $mod+Shift+f exec pcmanfm
 
 # lock screen
 bindsym XF86ScreenSaver exec i3lock -c 000000
+bindsym Mod1+Ctrl+l exec i3lock -c 000000
 
 # change focus
 bindsym $mod+j focus left
@@ -71,7 +72,7 @@ bindsym $mod+f fullscreen
 # change container layout (stacked, tabbed, toggle split)
 bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+e layout toggle all
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -97,6 +98,10 @@ bindsym $mod+8 workspace 8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
 
+# Cycle through active workspaces
+bindsym $mod+Tab workspace next
+bindsym $mod+Shift+Tab workspace prev
+
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
@@ -114,7 +119,8 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+#bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+bindsym $mod+Shift+e exec i3-msg exit
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -160,17 +166,14 @@ bar {
 	}
 }
 
-# screen lock
-bindsym ctrl+Mod1+l exec i3lock
-
 # multimedia keys
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% 
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% 
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle
 
 # Sreen brightness controls
-bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
-bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightness
+bindsym XF86MonBrightnessUp exec "sudo brightnessctl s +10%"
+bindsym XF86MonBrightnessDown exec "sudo brightnessctl s 10%-"
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play
@@ -181,7 +184,12 @@ bindsym XF86AudioPrev exec playerctl previous
 # Fn display button
 bindsym XF86Display exec arandr
 
+# rules
+for_window [class="^Pidgin$" window_role="^conversation$"] resize grow width 0 px or 30 ppt
+for_window [window_role="buddy_list"] focus; resize shrink width 50 ppt
+
 # start progs
 exec blueman-applet
+exec nm-applet
 exec pasystray
 exec_always feh --bg-fill /home/knut/Bilder/Hintergrund/parapente.jpg

@@ -37,3 +37,6 @@ export JAVA_HOME="/usr/lib/jvm/default"
 
 export PATH="$HOME/.cargo/bin:$PATH"
 
+# fzf fuzy search
+. /usr/share/fzf/completion.bash
+
