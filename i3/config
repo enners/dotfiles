@@ -10,20 +10,12 @@ set $green  #3EB34F
 set $red    #ED3146
 set $orange #E95420
 
-# class                 border  bground		text    indicator	child_border
-client.focused          $graphite $inkstone 	$white	$orange		$inkstone
-client.focused_inactive $inkstone $base01	$ash	$orange		$base01
-client.unfocused	$inkstone $base01	$ash	$orange		$base01
-client.placeholder	$inkstone $base01	$ash	$orange		$base01
-client.urgent           $red	  $red		$white	$red		$red
-client.background       $base01
-font pango:Noto Sans Mono 14
-default_border pixel 
-
-### Variables
-#
-# Logo key. Use Mod1 for Alt.
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
 set $mod Mod4
+
+# Font for window titles. ISO 10646 = Unicode
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font pango:Ubuntu Sans Mono 8
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -38,7 +30,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+d exec dmenu_run
 
 # file manager
-bindsym $mod+Shift+f exec caja
+bindsym $mod+Shift+f exec pcmanfm
 
 # lock screen
 bindsym XF86ScreenSaver exec i3lock -c 000000
@@ -74,24 +66,25 @@ bindsym $mod+h split h
 # split in vertical orientation
 bindsym $mod+v split v
 
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
 
 # change container layout (stacked, tabbed, toggle split)
-    # Switch the current container between different layout styles
-    bindsym $mod+s layout stacking
-    bindsym $mod+w layout tabbed
-    bindsym $mod+e layout toggle split
-    
-    # Make the current focus fullscreen
-    bindsym $mod+f fullscreen
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle all
 
-    # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
 
-    # Swap focus between the tiling area and the floating area
-    bindsym $mod+Alt focus mode_toggle
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
 
-    # Move focus to the parent container
-    bindsym $mod+a focus parent
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindsym $mod+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -173,7 +166,6 @@ bar {
 	}
 }
 
-
 # multimedia keys
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% 
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% 
@@ -196,9 +188,6 @@ bindsym XF86Display exec arandr
 for_window [class="^Pidgin$" window_role="^conversation$"] resize grow width 0 px or 30 ppt
 for_window [window_role="buddy_list"] focus; resize shrink width 50 ppt
 
-# keyboard layout
-exec "setxkbmap -layout de,us"
-exec "setxkbmap -option 'caps:escape,grp:win_space_toggle'"
 # start progs
 exec blueman-applet
 exec nm-applet

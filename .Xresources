@@ -1,10 +1,10 @@
-Xft.dpi:	210
+Xft.dpi:                   192	
 
 Xcursor.theme: DMZ-White
-URxvt.font:                xft:Ubuntu\\ Mono:pixelsize=24:antialiased=true
-URxvt.boldFont:            xft:Ubuntu\\ Mono:pixelsize=24:bold
-URxvt.italicFont:          xft:Ubuntu\\ Mono:pixelsize=24:italic
-URxvt.boldItalicFont:      xft:Ubuntu\\ Mono:pixelsize=24:bold:italic
+URxvt.font:                xft:Noto\\ Sans\\ Mono:pixelsize=14:antialiased=true
+URxvt.boldFont:            xft:Noto\\ Sans\\ Mono:pixelsize=14:bold
+URxvt.italicFont:          xft:Noto\\ Sans\\ Mono:pixelsize=14:italic
+URxvt.boldItalicFont:      xft:Noto\\ Sans\\ Mono:pixelsize=14:bold:italic
 
 URxvt*color0:              #101218
 URxvt*color1:              #ee829f

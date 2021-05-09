@@ -3,28 +3,31 @@
 let mapleader = "\<Space>"
 syntax on
 filetype plugin indent on
-colorscheme default
-set autoindent
+"colorscheme default " set by autocmd below
+"set autoindent " nvim default
 set autowrite
-set backspace=indent,eol,start
+"set backspace=indent,eol,start "nvim default 
 "set backupdir=/tmp "coc has problems with backupfiles
+set clipboard+=unnamedplus
 set diffopt+=vertical
-set encoding=utf-8
+"set encoding=utf-8 " nvim default
 set mouse=a
+set relativenumber
 set number
 set nowrap
 set ruler		" show the cursor position all the time
 set scrolloff=3
-set showcmd		" display incomplete commands
+"set showcmd		" display incomplete commands, nvim default
 set shiftwidth=4
 set splitright
 set tabstop=4
 " search
-set hlsearch
-set incsearch
+"set hlsearch "nvim default
+"set incsearch "nvim default
 set showmatch
 set ignorecase
 set smartcase
+set path=$PWD/**
 " make coc work, see https://github.com/neoclide/coc.nvim
 set hidden
 set nobackup
@@ -49,7 +52,11 @@ call plug#begin('~/.local/share/vim/plugged')
 Plug 'godlygeek/tabular'	" text alignment
 Plug 'airblade/vim-rooter'	" workdir to git-root
 Plug 'junegunn/fzf.vim'		" fuzzy search
+Plug 'morhetz/gruvbox' 		" colorscheme
+Plug 'tpope/surround'       " {y,c,d}s<FROM><TO>
 " language support
+Plug 'vim-test/vim-test'
+Plug 'tpope/vim-dispatch'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'fatih/vim-go', { 'tag': '*' }
 Plug 'rust-lang/rust.vim'
@@ -58,8 +65,11 @@ Plug 'cespare/vim-toml'
 Plug 'stephpy/vim-yaml'
 call plug#end()
 
-" general bindings
+" general 
 "
+autocmd vimenter * colorscheme gruvbox
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber
 nmap <leader>, :Buffers<CR>
 " toggle between buffers
 nnoremap <leader><leader> <c-^>
@@ -68,7 +78,15 @@ map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
 vnoremap <C-h> :nohlsearch<cr>
 nnoremap <C-h> :nohlsearch<cr>
-nnoremap <leader>f :Rg
+nnoremap <leader>f :Rg 
+
+" test
+let test#strategy="neovim"
+nmap <silent> <leader>tt :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tv :TestVisit<CR>
 
 " go
 let g:go_gmt_command = "goimports"
@@ -112,7 +130,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <S-F6>rn <Plug>(coc-rename)
+nmap <silent> <leader>c <Plug>(coc-rename)
 
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
