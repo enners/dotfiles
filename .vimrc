@@ -53,7 +53,7 @@ Plug 'godlygeek/tabular'	" text alignment
 Plug 'airblade/vim-rooter'	" workdir to git-root
 Plug 'junegunn/fzf.vim'		" fuzzy search
 Plug 'morhetz/gruvbox' 		" colorscheme
-Plug 'tpope/surround'       " {y,c,d}s<FROM><TO>
+Plug 'tpope/vim-surround'       " {y,c,d}s<FROM><TO>
 " language support
 Plug 'vim-test/vim-test'
 Plug 'tpope/vim-dispatch'
