@@ -1,0 +1,22 @@
+"general
+let mapleader = "\<Space>"
+set clipboard+=unamedplus
+set number
+set relativenumber
+
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber
+
+"activate buildin plugins
+set surround
+
+"actions
+:map <leader>d <Action>(Debug)
+:map <leader>b <Action>(ToggleLineBreakpoint)
+:map <leader>xx <Action>(Run)
+:map <leader>xf <Action>(Rerun-Failed-Tests)
+
+:map <leader>ro <Action>(OptimizeImports)
+:map <leader>rw <Action>(RenameElement)
+:map <leader>ll <Aciton>(Javascript.Linters.EsLint.Fix)
+
