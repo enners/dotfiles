@@ -6,8 +6,9 @@ return require('packer').startup(function()
 	use 'wbthomason/packer.nvim'
 	-- editor
 	use 'tpope/vim-sensible'  -- common sensible defaults
-	use 'godlygeek/tabular'   -- text alignment
-	use 'junegunn/fzf.vim'
+	use 'godlygeek/tabular'   -- text alignment, req. for md
+	use {'junegunn/fzf'}
+	use {'junegunn/fzf.vim'}
 	use 'morhetz/gruvbox'     -- color scheme
 	use {
 		'hoob3rt/lualine.nvim',
@@ -20,6 +21,7 @@ return require('packer').startup(function()
 	use 'hrsh7th/nvim-compe'	-- auto completion
 	use 'vim-test/vim-test'
 	use 'tpope/vim-dispatch'
+	-- syntax
 	use 'fatih/vim-go'
 	use 'rust-lang/rust.vim'
 	use 'plasticboy/vim-markdown'
