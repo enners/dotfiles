@@ -34,15 +34,11 @@ lua require('plugins')
 autocmd vimenter * colorscheme gruvbox
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
+nmap <leader>w :w<CR>
 nmap <leader>, :Buffers<CR>
 " toggle between buffers
-nnoremap <leader><leader> <c-^>
-map <C-n> :cnext<CR>
-map <C-m> :cprevious<CR>
-nnoremap <leader>a :cclose<CR>
+nnoremap <leader><leader> <c-^> 
 nnoremap <leader>f :Rg 
-
-lua require('_lualine')
 
 " programming
 lua require('language_server')
@@ -68,8 +64,18 @@ let g:rustfmt_autosave = 1
 let g:rustfmt_emit_files = 1
 let g:rustfmt_fail_silently = 0
 
-"
+" markdown
+let g:vim_markdown_folding_disabled = 1
+
+" prettier
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * undojoin | Neoformat
+augroup END
+
 "
 " file type preferences
 autocmd FileType markdown setlocal tw=80 et ts=2 sw=2
 autocmd FileType text setlocal tw=80
+autocmd BufRead *.ts.tsx set filetype=typescript
+autocmd Filetype typescript setlocal tw=100 et ts=2 sw=2
