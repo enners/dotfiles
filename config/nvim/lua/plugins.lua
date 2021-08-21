@@ -9,7 +9,7 @@ return require('packer').startup(function()
 	use {'junegunn/fzf.vim', requires = {'junegunn/fzf'}}
 	use 'morhetz/gruvbox'     -- color scheme
 	use 'airblade/vim-rooter' -- workdir to git-root
-	use 'tpope/vim-fugitive'  -- :Git, :Gdiff, :Gwrite ...
+	use {'tpope/vim-rhubarb', requires = {'tpope/vim-fugitive'}} -- git
 	use 'tpope/vim-surround'  -- {y,c,d}s<FROM><TO>
 	-- language support
 	use 'neovim/nvim-lspconfig' -- easen lang server cfg
