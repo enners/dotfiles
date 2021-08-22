@@ -16,10 +16,13 @@ return require('packer').startup(function()
 	use 'hrsh7th/nvim-compe'	-- auto completion
 	use 'sbdchd/neoformat'      -- common autoformat interface
 	use {'vim-test/vim-test', requires = {'tpope/vim-dispatch'}}
+	use {'theHamsta/nvim-dap-virtual-text', requires = {{'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'}}, {'mfussenegger/nvim-dap'}}}
+	-- use 'puremourning/vimspector'
 	-- syntax
 	use 'fatih/vim-go'
-	use 'rust-lang/rust.vim'
+	use 'udalov/kotlin-vim'
 	use {'plasticboy/vim-markdown', requires = { 'godlygeek/tabular' }}
+	use 'rust-lang/rust.vim'
 	use 'cespare/vim-toml'
 	use 'stephpy/vim-yaml'
 end)

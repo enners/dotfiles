@@ -45,7 +45,7 @@ lua require('language_server')
 lua require('autocomple')
 
 " test
-let test#strategy="neovim"
+let test#strategy="dispatch"
 nmap <silent> <leader>tt :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
 nmap <silent> <leader>ts :TestSuite<CR>
@@ -58,6 +58,10 @@ let g:go_list_type = "quickfix"
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
 autocmd FileType go nmap <leader>r  <Plug>(go-run)
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
+
+" javascript
+"let g:test#javascript#"jest#options = '--config ../../../config/jest/default.json'
+let g:test#javascript#jest#executable = 'yarn test'
 
 " rust
 let g:rustfmt_autosave = 1
