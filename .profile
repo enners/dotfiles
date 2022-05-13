@@ -3,9 +3,11 @@ export LANG="de_DE.utf8"
 export EDITOR="/sbin/nvim"
 export VISUAL="/sbin/nvim"
 export LC_MESSAGES="de_DE.utf8"
-export PATH="~/bin:$GOPATH/bin:$HOME/.cargo/bin:$PATH"
+#export PATH="~/bin:$GOPATH/bin:$HOME/.cargo/bin:$PATH"
+export PATH="$GOPATH/bin:$HOME/.cargo/bin:$PATH"
 
 # alias
+alias bc='bc -q'
 alias ll="ls -lah"
 alias vi="nvim"
 alias wakepancho="wol 00:24:1D:DC:B6:93"
@@ -40,7 +42,12 @@ export XKB_DEFAULT_OPTIONS=grp:alt_shift_toggle
 
 # java
 export JAVA_HOME="/usr/lib/jvm/default"
+export JDTLS_HOME="/usr/share/java/jdtls"
+export WORKSPACE="$HOME/work"
 
 # fzf fuzy search
 . /usr/share/fzf/completion.bash
 . /usr/share/fzf/key-bindings.bash
+
+# passwords
+export PASSWORD_STORE_DIR="/home/knut/.local/share/pass"

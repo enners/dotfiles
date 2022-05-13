@@ -44,8 +44,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/home/knut/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?.lua;/home/knut/.cache/nvim/packer_hererocks/2.0.5/share/lua/5.1/?/init.lua;/home/knut/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?.lua;/home/knut/.cache/nvim/packer_hererocks/2.0.5/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/home/knut/.cache/nvim/packer_hererocks/2.0.5/lib/lua/5.1/?.so"
+local package_path_str = "/home/knut/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/home/knut/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/home/knut/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/home/knut/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/home/knut/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -69,77 +69,125 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  fzf = {
+    loaded = true,
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/fzf",
+    url = "https://github.com/junegunn/fzf"
+  },
   ["fzf.vim"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/fzf.vim"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/fzf.vim",
+    url = "https://github.com/junegunn/fzf.vim"
   },
   gruvbox = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/gruvbox"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/gruvbox",
+    url = "https://github.com/morhetz/gruvbox"
   },
-  ["lualine.nvim"] = {
+  ["kotlin-vim"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/lualine.nvim"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/kotlin-vim",
+    url = "https://github.com/udalov/kotlin-vim"
+  },
+  neoformat = {
+    loaded = true,
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/neoformat",
+    url = "https://github.com/sbdchd/neoformat"
   },
   ["nvim-compe"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/nvim-compe"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/nvim-compe",
+    url = "https://github.com/hrsh7th/nvim-compe"
+  },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text",
+    url = "https://github.com/theHamsta/nvim-dap-virtual-text"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/nvim-lspconfig"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
+    url = "https://github.com/neovim/nvim-lspconfig"
+  },
+  ["nvim-treesitter"] = {
+    loaded = true,
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/nvim-treesitter",
+    url = "https://github.com/nvim-treesitter/nvim-treesitter"
   },
   ["packer.nvim"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/packer.nvim"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/packer.nvim",
+    url = "https://github.com/wbthomason/packer.nvim"
   },
   ["rust.vim"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/rust.vim"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/rust.vim",
+    url = "https://github.com/rust-lang/rust.vim"
   },
   tabular = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/tabular"
-  },
-  ["vim-devicons"] = {
-    loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-devicons"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/tabular",
+    url = "https://github.com/godlygeek/tabular"
   },
   ["vim-dispatch"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-dispatch"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-dispatch",
+    url = "https://github.com/tpope/vim-dispatch"
+  },
+  ["vim-fugitive"] = {
+    loaded = true,
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-fugitive",
+    url = "https://github.com/tpope/vim-fugitive"
   },
   ["vim-go"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-go"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-go",
+    url = "https://github.com/fatih/vim-go"
   },
   ["vim-markdown"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-markdown"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-markdown",
+    url = "https://github.com/plasticboy/vim-markdown"
+  },
+  ["vim-rhubarb"] = {
+    loaded = true,
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-rhubarb",
+    url = "https://github.com/tpope/vim-rhubarb"
   },
   ["vim-rooter"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-rooter"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-rooter",
+    url = "https://github.com/airblade/vim-rooter"
   },
   ["vim-sensible"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-sensible"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-sensible",
+    url = "https://github.com/tpope/vim-sensible"
   },
   ["vim-surround"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-surround"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-surround",
+    url = "https://github.com/tpope/vim-surround"
   },
   ["vim-test"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-test"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-test",
+    url = "https://github.com/vim-test/vim-test"
   },
   ["vim-toml"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-toml"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-toml",
+    url = "https://github.com/cespare/vim-toml"
   },
   ["vim-yaml"] = {
     loaded = true,
-    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-yaml"
+    path = "/home/knut/.local/share/nvim/site/pack/packer/start/vim-yaml",
+    url = "https://github.com/stephpy/vim-yaml"
   }
 }
 

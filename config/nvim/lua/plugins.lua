@@ -20,6 +20,7 @@ return require('packer').startup(function()
 	-- use 'puremourning/vimspector'
 	-- syntax
 	use 'fatih/vim-go'
+	-- use 'mfussenegger/nvim-jdtls'
 	use 'udalov/kotlin-vim'
 	use {'plasticboy/vim-markdown', requires = { 'godlygeek/tabular' }}
 	use 'rust-lang/rust.vim'

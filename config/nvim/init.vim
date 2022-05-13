@@ -38,7 +38,14 @@ nmap <leader>w :w<CR>
 nmap <leader>, :Buffers<CR>
 " toggle between buffers
 nnoremap <leader><leader> <c-^> 
-nnoremap <leader>f :Rg 
+nnoremap <leader>ff :Rg 
+" search moves keep cursor centered
+:nnoremap n nzz
+:nnoremap N Nzz
+:nnoremap * *zz
+:nnoremap # #zz
+:nnoremap g* g*zz
+:nnoremap g# g#zz
 
 " programming
 lua require('language_server')
@@ -83,3 +90,6 @@ autocmd FileType markdown setlocal tw=80 et ts=2 sw=2
 autocmd FileType text setlocal tw=80
 autocmd BufRead *.ts.tsx set filetype=typescript
 autocmd Filetype typescript setlocal tw=100 et ts=2 sw=2
+autocmd BufRead,BufNewFile /tmp/mutt* setfiletype mail
+autocmd Filetype mail nnoremap <leader>rv :call fzf#run({'options': '--reverse --prompt "Vorlagen"', 'down': 20, 'dir': '~/Vorlagen/', 'sink': 'r' })<CR>
+
