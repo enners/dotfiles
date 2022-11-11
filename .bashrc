@@ -6,16 +6,18 @@
 HISTCONTROL=ignoreboth
 # append to the history file, don't overwrite it
 shopt -s histappend
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-PS1='[\u@\h \W]\$ '
+title='\[\e]2;\u@\h: $PWD $(__git_ps1 "| %s")\a\]'
+promt='[\u@\h \W]\$ '
+PS1=$title$promt
 
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
+if [ -x /bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias grep='grep --color=auto'
@@ -34,7 +36,15 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# settings knut - non-login shells should load my settings, too
+# fzf fuzy search 
+. /usr/share/fzf/completion.bash
+. /usr/share/fzf/key-bindings.bash
+
+# git info prompt
+. /usr/share/git/git-prompt.sh
+. /usr/share/git/completion/git-completion.bash
+
+# non-login shells should load my settings, too
 [ -f $HOME/.profile ] && . $HOME/.profile
 [ -f $HOME/.Xresources ] && xrdb $HOME/.Xresources
 
