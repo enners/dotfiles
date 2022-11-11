@@ -30,13 +30,22 @@ export PATH="${PATH}:${GOPATH}/bin"
 export PATH="${PATH}:./node_modules/.bin"
 
 # python
-export PATH="${PATH}:.local/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
+export PATH="${PATH}:${HOME}/.local/share/nvim/mason/bin"
 
 # rust
 export PATH="${PATH}:${HOME}/.cargo/bin"
+
+# java
+export JAVA_HOME="/usr/lib/jvm/default"
+export JDTLS_JVM_ARGS="-javaagent:/usr/lib/lombok-common/lombok.jar"
+export WORKSPACE="$HOME/work"
+
+# git
+export GIT_PS1_SHOWDIRTYSTATE=1
+
 # fix wayland
 export _JAVA_AWT_WM_NONREPARENTING=1
-#export IDEA_JDK=/usr/lib/jvm/java-11-openjdk
 export BEMENU_BACKEND="wayland"
 export XDG_CURRENT_DESKTOP=sway
 export MOZ_ENABLE_WAYLAND=1
@@ -47,14 +56,6 @@ export QT_AUTO_SCREEN_SCALE_FACTOR=2
 # keyboard layout
 export XKB_DEFAULT_LAYOUT="de,us"
 export XKB_DEFAULT_OPTIONS=grp:alt_shift_toggle
-
-# java
-export JAVA_HOME="/usr/lib/jvm/default"
-#export JDTLS_HOME="/usr/share/java/jdtls"
-export WORKSPACE="$HOME/work"
-
-# git
-export GIT_PS1_SHOWDIRTYSTATE=1
 
 # passwords
 export PASSWORD_STORE_DIR="/home/knut/.local/share/pass"
