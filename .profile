@@ -7,9 +7,10 @@ export LC_MESSAGES="de_DE.utf8"
 # alias
 alias bc='bc -q'
 alias ll="ls -lah"
+alias open="xdg-open"
 alias vi="nvim"
-alias wakepancho="wol 00:24:1D:DC:B6:93"
-alias haltpancho="ssh -t pancho 'sudo /sbin/poweroff'"
+alias panchostart="wol 00:24:1D:DC:B6:93"
+alias panchostop="ssh -t pancho 'sudo /sbin/poweroff'"
 alias zi="sudo extpool.sh"
 alias zx="sudo zpool export extpool"
 #alias rebase-develop="git rebase -i HEAD~$(git rev-list --count HEAD ~develop)"

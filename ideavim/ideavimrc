@@ -7,8 +7,8 @@ set relativenumber
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
 
-"activate buildin plugins
-set surround
+"activate build-in plugins
+Plug 'tpope/vim-surround'
 
 "actions
 :map <leader>w <Action>(SaveAll)
@@ -19,5 +19,5 @@ set surround
 
 :map <leader>ro <Action>(OptimizeImports)
 :map <leader>rw <Action>(RenameElement)
-:map <leader>ll <Aciton>(Javascript.Linters.EsLint.Fix)
+:map <leader>ll <Action>(Javascript.Linters.EsLint.Fix)
 

@@ -31,8 +31,8 @@ set shortmess+=c
 set signcolumn=yes
 
 colorscheme lunaperche
-highlight lineNr ctermfg=darkgrey cterm=italic
 highlight Normal ctermbg=NONE
+highlight MatchParen cterm=bold
 
 autocmd InsertEnter * :set norelativenumber
 autocmd InsertLeave * :set relativenumber
@@ -45,11 +45,12 @@ lua require('plugins')
 " key bindings
 nmap     <leader>w :w<CR>
 nnoremap <leader><leader> <c-^> " toggle between buffers
-nnoremap <leader>,  <cmd>Telescope buffers<CR> 
-nnoremap <leader>fs <cmd>Telescope live_grep<CR> 
-nnoremap <leader>ff <cmd>Telescope find_files<CR> 
-nnoremap <leader>fg <cmd>Telescope git_files<CR> 
-nnoremap <leader>fb <cmd>Telescope git_bcommits<CR> 
+nnoremap <leader>,  <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fs <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').git_files()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').git_bcommits()<cr>
+nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
 nnoremap <leader>fd <cmd>Telescope lsp_document_symbols<CR> 
 nnoremap <leader>fn <cmd>NeoTreeFocusToggle<CR> 
 
@@ -68,7 +69,7 @@ lua require('dapui').setup()
 lua require("nvim-dap-virtual-text").setup()
 lua require('mason').setup()
 
-" test
+" test 
 let test#strategy="dispatch"
 nmap <silent> <leader>tt :TestNearest<CR>
 nmap <silent> <leader>tf :TestFile<CR>
@@ -97,11 +98,11 @@ let g:vim_markdown_folding_disabled = 1
 " prettier
 augroup fmt
   autocmd!
-  autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
-  "autocmd BufWritePre * undojoin | Neoformat
+  "autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
+  autocmd BufWritePre * undojoin | Neoformat
 augroup END
 
-" debug:
+" debug
 nnoremap <silent> <Leader>dc <Cmd>lua require'dap'.continue()<CR>
 nnoremap <silent> <F5>       <Cmd>lua require'dap'.continue()<CR>
 nnoremap <silent> <leader>dj <Cmd>lua require'dap'.step_into()<CR>
@@ -118,6 +119,12 @@ nnoremap <silent> <Leader>du <Cmd>lua require'dapui'.toggle()<CR>
 autocmd filetype go   nmap <silent> <leader>dt :lua require('dap-go').debug_test()<CR>
 autocmd filetype java nmap <silent> <leader>dt :lua require'jdtls'.test_nearest_method()<CR>
 autocmd filetype java nmap <silent> <leader>dtc :lua require'jdtls'.test_class()<CR>
+
+" dadbod [UI] 
+let g:db_ui_execute_on_save = 0
+nnoremap <silent> <Leader>db :DBUIToggle<CR>
+autocmd FileType sql xmap <expr> <C-M> db#op_exec()
+autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })
 
 "
 " file type preferences

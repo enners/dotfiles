@@ -47,7 +47,9 @@ end
 local servers = {
 	"gopls",
 	"kotlin_language_server",
-	"sumneko_lua",
+	"lua_ls",
+	"pyright",
+	"pylsp",
 	"rust_analyzer",
 	"tsserver",
 }

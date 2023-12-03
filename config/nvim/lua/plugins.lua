@@ -2,23 +2,9 @@ return require('packer').startup(function()
 	use 'wbthomason/packer.nvim'
 	-- editor
 	use 'tpope/vim-sensible' -- common sensible defaults
+	use 'tpope/vim-fugitive'
 	use { 'junegunn/fzf.vim', requires = { 'junegunn/fzf' } }
-	use 'kvrohit/rasmus.nvim' -- +let g:rasmus_variant = "monochrome"
-	use 'sainnhe/gruvbox-material'
-	use "EdenEast/nightfox.nvim"
-
 	use 'airblade/vim-rooter' -- workdir to git-root
-	use 'tpope/vim-fugitive' -- git
-	use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
-	--use 'tpope/vim-surround'  -- {y,c,d}s<FROM><TO>
-	use('kylechui/nvim-surround')
-	use {
-		-- Tree file explorer
-		"nvim-neo-tree/neo-tree.nvim",
-		branch = "v2.x",
-		requires = { "nvim-lua/plenary.nvim", "MunifTanjim/nui.nvim" },
-		config = require "neotree"
-	}
 
 	-- language support
 	use 'neovim/nvim-lspconfig' -- easen lang server cfg
@@ -63,4 +49,9 @@ return require('packer').startup(function()
 	use { 'plasticboy/vim-markdown', requires = { 'godlygeek/tabular' } }
 	use 'rust-lang/rust.vim'
 	use 'stephpy/vim-yaml'
+	use 'kristijanhusak/vim-dadbod-completion'
+	use	'tpope/vim-dadbod'
+	use { 'kristijanhusak/vim-dadbod-ui' , require = {
+		{ 'kristijanhusak/vim-packager'},
+	}}
 end)
