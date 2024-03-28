@@ -1,6 +1,5 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
-# for examples
 
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
@@ -12,6 +11,7 @@ HISTFILESIZE=20000
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
+# display git repo info if applicable
 title='\[\e]2;\u@\h: $PWD $(__git_ps1 "| %s")\a\]'
 promt='[\u@\h \W]\$ '
 PS1=$title$promt
@@ -36,6 +36,24 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# some magic is needed to make foot terminal more convenient
+# see https://codeberg.org/dnkl/foot/wiki#user-content-spawning-new-terminal-instances-in-the-current-working-directory
+osc7_cwd() {
+    local strlen=${#PWD}
+    local encoded=""
+    local pos c o
+    for (( pos=0; pos<strlen; pos++ )); do
+        c=${PWD:$pos:1}
+        case "$c" in
+            [-/:_.!\'\(\)~[:alnum:]] ) o="${c}" ;;
+            * ) printf -v o '%%%02X' "'${c}" ;;
+        esac
+        encoded+="${o}"
+    done
+    printf '\e]7;file://%s%s\e\\' "${HOSTNAME}" "${encoded}"
+}
+PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }osc7_cwd
+
 # fzf fuzy search 
 . /usr/share/fzf/completion.bash
 . /usr/share/fzf/key-bindings.bash
@@ -47,5 +65,4 @@ fi
 # non-login shells should load my settings, too
 [ -f $HOME/.profile ] && . $HOME/.profile
 [ -f $HOME/.Xresources ] && xrdb $HOME/.Xresources
-
 

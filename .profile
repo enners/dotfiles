@@ -6,7 +6,9 @@ export LC_MESSAGES="de_DE.utf8"
 
 # alias
 alias bc='bc -q'
-alias ll="ls -lah"
+alias l="ls -1"
+alias ll="ls -lah --time-style=long-iso"
+alias duu="du -h -d1"
 alias open="xdg-open"
 alias vi="nvim"
 alias panchostart="wol 00:24:1D:DC:B6:93"
@@ -26,6 +28,7 @@ export GOROOT=/usr/lib/go
 #export GOPATH=$HOME/dev/go
 export GOPATH=$HOME/work/gvl/go
 export PATH="${PATH}:${GOPATH}/bin"
+#export GOPRIVATE="gitlab.gvl.local"
 
 # npm
 export PATH="${PATH}:./node_modules/.bin"

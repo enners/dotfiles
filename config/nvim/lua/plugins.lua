@@ -41,6 +41,7 @@ return require('packer').startup(function()
 	} }
 	-- syntax
 	use { "williamboman/mason.nvim" }
+	use { 'leoluz/nvim-dap-go' }
 	--use {'fatih/vim-go', requires = {
 	--	'leoluz/nvim-dap-go',
 	--}}
