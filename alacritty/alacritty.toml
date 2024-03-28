@@ -1,0 +1,44 @@
+[[keyboard.bindings]]
+action = "ResetFontSize"
+key = "Key0"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "IncreaseFontSize"
+key = "Equals"
+mods = "Control"
+
+[[keyboard.bindings]]
+action = "DecreaseFontSize"
+key = "Minus"
+mods = "Control"
+
+[colors.cursor]
+cursor = "0xF7F7F7"
+text = "0x222222"
+
+[colors.normal]
+black = "0x222222"
+blue = "0x19B6EE"
+cyan = "0x19B6EE"
+green = "0x3eb34f"
+magenta = "0xd3869b"
+red = "0xED3146"
+white = "0xF7F7F7"
+yellow = "0xE95420"
+
+[colors.primary]
+background = "0x222222"
+foreground = "0xF7F7F7"
+
+[font]
+normal.family = "IBM Plex Mono"
+size = 17
+
+[window]
+opacity = 0.95
+title = "shell"
+
+[window.padding]
+x = 2
+y = 2
