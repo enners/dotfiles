@@ -10,25 +10,28 @@ set autowrite
 set background=dark
 set backupdir=/tmp
 set clipboard+=unnamedplus "connect to sys clipboard
+set cmdheight=2
+set colorcolumn=80
 set completeopt=menuone,noinsert,noselect
 set cursorline
-set diffopt+=vertical
+set diffopt+=iwhite,indent-heuristic,algorithm:histogram,vertical
 set mouse=a
-set relativenumber
-set number
+set nofoldenable
 set nowrap
-set shiftwidth=2
+set number
+set relativenumber
+set scrolloff=3
+set signcolumn=yes
+set shiftwidth=4
 set splitright
-set tabstop=2
+set tabstop=4
 " search
 set showmatch
 set ignorecase
 set smartcase
 set path=$PWD/** "search path from current dir downwards
-set cmdheight=2
 set updatetime=300
 set shortmess+=c
-set signcolumn=yes
 
 colorscheme lunaperche
 highlight Normal ctermbg=NONE
@@ -51,8 +54,6 @@ nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <leader>fg <cmd>lua require('telescope.builtin').git_files()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').git_bcommits()<cr>
 nnoremap <leader>fd <cmd>lua require('telescope.builtin').lsp_document_symbols()<cr>
-nnoremap <leader>fd <cmd>Telescope lsp_document_symbols<CR> 
-nnoremap <leader>fn <cmd>NeoTreeFocusToggle<CR> 
 
 " search moves keep cursor centered
 :nnoremap n nzz
@@ -96,7 +97,13 @@ let g:rustfmt_fail_silently = 0
 " markdown
 let g:vim_markdown_folding_disabled = 1 
 
-" prettier
+" code format
+let g:neoformat_java_google = {
+	\ 'exe': 'google-java-format',
+	\ 'args': [' -'],
+	\ 'stdin': 1, 
+	\ }
+let g:neoformat_enabled_java = ['google']
 augroup fmt
   autocmd!
   "autocmd BufWritePre <buffer> lua vim.lsp.buf.format()
@@ -131,16 +138,17 @@ autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ 
 " file type preferences
 augroup filetypedetect
   " Mail
-  autocmd BufRead,BufNewFile /tmp/mutt*              setfiletype mail
-  autocmd Filetype mail                              setlocal spell tw=72 colorcolumn=73
-  autocmd Filetype mail                              setlocal fo+=w
+  autocmd BufRead,BufNewFile /tmp/mutt*				setfiletype mail
+  autocmd Filetype mail								setlocal spell tw=72 colorcolumn=73
+  autocmd Filetype mail								setlocal fo+=w
   autocmd Filetype mail nnoremap <leader>rv :call fzf#run({'options': '--reverse --prompt "Vorlagen"', 'down': 20, 'dir': '~/Vorlagen/', 'sink': 'r' })<CR>
   " Git commit message
-  autocmd Filetype gitcommit                         setlocal spell tw=72 colorcolumn=73
+  autocmd Filetype gitcommit						setlocal spell tw=72 colorcolumn=73
   " Coded Text
-  autocmd Filetype markdown                          setlocal spell tw=80 et ts=2
-  autocmd FileType java                              setlocal tw=100 et ts=2 sw=2
-  autocmd BufRead *.ts.tsx                           set filetype=typescript
-  autocmd Filetype typescript                        setlocal tw=100 et ts=2 
+  autocmd Filetype markdown							setlocal spell tw=80 et ts=2
+  autocmd FileType java								setlocal tw=100 et ts=2 et sw=2 et colorcolumn=100
+  autocmd Filetype rust								setlocal tw=100 et colorcolumn=100
+  autocmd BufRead *.ts.tsx							set filetype=typescript
+  autocmd Filetype typescript						setlocal tw=100 et ts=2 
 augroup END
 

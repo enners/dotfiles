@@ -6,13 +6,13 @@ export LC_MESSAGES="de_DE.utf8"
 
 # alias
 alias bc='bc -q'
+alias duu="du -h -d1"
 alias l="ls -1"
 alias ll="ls -lah --time-style=long-iso"
-alias duu="du -h -d1"
 alias open="xdg-open"
-alias vi="nvim"
 alias panchostart="wol 00:24:1D:DC:B6:93"
 alias panchostop="ssh -t pancho 'sudo /sbin/poweroff'"
+alias vi="nvim"
 alias zi="sudo extpool.sh"
 alias zx="sudo zpool export extpool"
 #alias rebase-develop="git rebase -i HEAD~$(git rev-list --count HEAD ~develop)"

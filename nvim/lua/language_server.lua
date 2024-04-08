@@ -85,19 +85,15 @@ end
 
 local java_code_format = vim.fn.stdpath('config') .. '/eclipse-java-google-style.xml'
 local java_bundles = {
-	--  vim.fn.glob(vim.fn.stdpath('data') ..'/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar', 1),
-	vim.fn.glob("/home/knut/.local/share/nvim/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
-		, 1),
+	vim.fn.glob(vim.fn.stdpath('data') .. '/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar', 1),
 };
-vim.list_extend(java_bundles,
-	vim.split(vim.fn.glob("/home/knut/.local/share/nvim/mason/packages/java-test/extension/server/*.jar", 1), "\n"))
+vim.list_extend(java_bundles, vim.split(vim.fn.glob(vim.fn.stdpath('data') .. "/mason/packages/java-test/extension/server/*.jar", 1), "\n"))
 
 nvim_lsp['jdtls'].setup {
 	settings = {
 		java = {
 			configuration = {
 				runtimes = {
-					{ name = 'JavaSE-11', path = '/usr/lib/jvm/java-11-openjdk/' },
 					{ name = 'JavaSE-17', path = '/usr/lib/jvm/java-17-openjdk/' },
 				}
 			},

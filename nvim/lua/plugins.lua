@@ -26,6 +26,7 @@ return require('packer').startup(function()
 		'hrsh7th/vim-vsnip',
 	} }
 	use { 'mfussenegger/nvim-dap', requires = { -- debugging
+		{ 'nvim-neotest/nvim-nio' },
 		{ 'rcarriga/nvim-dap-ui' },
 		{ 'nvim-treesitter/nvim-treesitter' },
 		{ 'nvim-telescope/telescope.nvim' },
