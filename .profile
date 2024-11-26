@@ -1,3 +1,6 @@
+# vi mode for bash
+set -o vi
+
 # shell env
 export LANG="de_DE.utf8"
 export EDITOR="/sbin/nvim"
@@ -9,6 +12,8 @@ alias bc='bc -q'
 alias duu="du -h -d1"
 alias l="ls -1"
 alias ll="ls -lah --time-style=long-iso"
+alias ipadcon="ifuse --documents org.mozilla.ios.Firefox /media/knut/ipad/"
+alias ipadrem="fusermount -u /media/knut/ipad"
 alias open="xdg-open"
 alias panchostart="wol 00:24:1D:DC:B6:93"
 alias panchostop="ssh -t pancho 'sudo /sbin/poweroff'"
