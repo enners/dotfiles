@@ -1,7 +1,6 @@
 --
 -- settings
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_ruby_provider = 0
@@ -22,9 +21,9 @@ vim.opt.diffopt:append("iwhite")
 vim.opt.diffopt:append("vertical")
 vim.opt.foldenable = false
 vim.opt.ignorecase = true
+vim.opt.inccommand = "split" -- Preview substitutions live, as you type!
 vim.opt.list = true
 vim.opt.listchars = "tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•"
-vim.opt.mouse = "a"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 10
@@ -34,16 +33,10 @@ vim.opt.smartcase = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 4
+vim.opt.undofile = true
 vim.opt.updatetime = 300
 vim.opt.wildmode = "list:longest"
 vim.opt.wrap = false
-
--- Unsure if I need this
-vim.opt.showmode = false
-vim.opt.undofile = true
-vim.opt.timeoutlen = 300
-vim.opt.inccommand = "split" -- Preview substitutions live, as you type!
-vim.opt.hlsearch = true
 
 vim.cmd.colorscheme("lunaperche")
 vim.cmd.highlight("Normal ctermbg=none guibg=none")
@@ -53,26 +46,29 @@ vim.cmd.highlight("NormalFloat ctermbg=none guibg=none")
 
 --
 -- key bindings
-vim.keymap.set("n", "<leader>", "<cmd>nohlsearch<CR>")
+vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader><leader>", "<c-^>") -- toggle between buffers
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>")
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
---vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
--- center cursor after search
-vim.keymap.set("n", "n", "nzz", { silent = true })
-vim.keymap.set("n", "N", "Nzz", { silent = true })
-vim.keymap.set("n", "*", "*zz", { silent = true })
-vim.keymap.set("n", "#", "#zz", { silent = true })
-vim.keymap.set("n", "g*", "g*zz", { silent = true })
-
+vim.keymap.set("i", "<C-a>", "<Home>", { silent = true }) -- readline style edit
+vim.keymap.set("i", "<C-e>", "<End>", { silent = true })
+vim.keymap.set("i", "<C-w>", "<C-o>db", { silent = true })
 --
 -- autocommands
 -- See `:help lua-guide-autocommands`
 vim.api.nvim_create_autocmd("InsertEnter", { pattern = "*", command = "set norelativenumber" })
 vim.api.nvim_create_autocmd("InsertLeave", { pattern = "*", command = "set relativenumber" })
+
+vim.api.nvim_create_autocmd("VimEnter", {
+	callback = function()
+		for _, c in ipairs({ "n", "N", "*", "#", "g*" }) do
+			vim.keymap.set("n", c, c .. "zz", { silent = true })
+		end
+	end,
+	desc = "center cursor after move operations",
+	group = vim.api.nvim_create_augroup("center-cursor", { clear = true }),
+})
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
@@ -128,7 +124,6 @@ vim.opt.rtp:prepend(lazypath)
 -- plugins :Lazy
 require("lazy").setup({
 	{ "tpope/vim-fugitive" }, -- git support
-	{ "slugbyte/lackluster.nvim", opts = { transparent = true } },
 
 	{
 		"vim-test/vim-test",
@@ -284,55 +279,28 @@ require("lazy").setup({
 			})
 		end,
 	},
+	--[[
+	{ -- the new completer
+		"saghen/blink.nvim",
+	    dependencies = { 'rafamadriz/friendly-snippets' },
+		version = "1.*",
+		lazy = false,
+	},
+	]]
 
 	{ -- language support
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			{ "williamboman/mason.nvim", config = true }, -- NOTE: Must be loaded before dependants
-			{ "williamboman/mason-lspconfig.nvim" },
-			{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 			{ "folke/neodev.nvim", opts = {} },
 			{ "mfussenegger/nvim-jdtls" },
 		},
 		config = function()
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
-				callback = function(event)
-					local map = function(keys, func, desc)
-						vim.keymap.set("n", keys, func, { buffer = event.buf, desc = "LSP: " .. desc })
-					end
-					local telescope = require("telescope.builtin")
-					map("<C-K>", vim.lsp.buf.signature_help, "signature help")
-					map("<leader>D", telescope.lsp_type_definitions, "Type [D]efinition")
-					map("<leader>a", vim.lsp.buf.code_action, "code [A]ction")
-					map("<leader>rw", vim.lsp.buf.rename, "[R]ename [W]ord")
-					map("<leader>ws", telescope.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-					map("K", vim.lsp.buf.hover, "Hover Documentation")
-					map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
-					map("gI", telescope.lsp_implementations, "[G]oto [I]mplementation")
-					map("gd", telescope.lsp_definitions, "[G]oto [D]efinition")
-					map("gr", telescope.lsp_references, "[G]oto [R]eferences")
-				end,
-			})
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-			-- Java needs special treatment
-			local java_mappings = function(bufnr)
-				local function buf_set_keymap(...)
-					vim.api.nvim_buf_set_keymap(bufnr, ...)
-				end
-				local opts = { noremap = true, silent = true }
-				buf_set_keymap("v", "<leader>rev", "<Esc><Cmd>lua require('jdtls').extract_variable(true)<CR>", opts)
-				buf_set_keymap("v", "<leader>rem", "<Esc><Cmd>lua require('jdtls').extract_method(true)<CR>", opts)
-				buf_set_keymap("n", "<leader>rev", "<Cmd>lua require('jdtls').extract_variable()<CR>", opts)
-				buf_set_keymap("n", "<leader>rec", "<Cmd>lua require('jdtls').extract_constant()<CR>", opts)
-			end
+			vim.lsp.config("*", {})
+			-- java
 			local java_on_attach = function(_, bufnr)
 				require("jdtls").setup_dap()
 				require("jdtls.setup")
 				require("jdtls.dap").setup_dap_main_class_configs()
-				java_mappings(bufnr)
 			end
 			local java_code_format = vim.fn.stdpath("config") .. "/eclipse-java-google-style.xml"
 			local java_bundles = {
@@ -349,59 +317,42 @@ require("lazy").setup({
 					"\n"
 				)
 			)
-
-			local servers = {
-				gopls = {},
-				jdtls = {
-					-- doc: https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
-					settings = {
-						java = {
-							configuration = {
-								runtimes = {
-									{ name = "JavaSE-17", path = "/usr/lib/jvm/java-17-openjdk/" },
-								},
+			local java_project = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+			local java_ws = vim.fn.stdpath("cache") .. "/jdtls/workspace/" .. java_project
+			vim.lsp.config("jdtls", {
+				on_attach = java_on_attach,
+				flags = {
+					server_side_fuzzy_completion = true,
+				},
+				init_options = {
+					bundles = java_bundles,
+				},
+				settings = {
+					java = {
+						configuration = {
+							runtimes = {
+								{ name = "JavaSE-17", path = "/usr/lib/jvm/java-17-openjdk/" },
+								{ name = "JavaSE-21", path = "/usr/lib/jvm/java-21-openjdk/" },
 							},
-							format = {
-								settings = {
-									url = java_code_format,
-									profile = "GoogleStyle",
-								},
+						},
+						format = {
+							settings = {
+								url = java_code_format,
+								profile = "GoogleStyle",
 							},
 						},
 					},
-					capabilities = capabilities,
-					on_attach = java_on_attach,
-					flags = {
-						server_side_fuzzy_completion = true,
-					},
-					init_options = {
-						bundles = java_bundles,
-					},
 				},
-				kotlin_language_server = {},
-				lua_ls = {},
-				pyright = {},
-				pylsp = {},
-				rust_analyzer = { cmd = { "/sbin/rust-analyzer" } },
-				ts_ls = {},
-			}
-
-			require("mason").setup()
-			local ensure_installed = vim.tbl_keys(servers or {})
-			vim.list_extend(ensure_installed, {
-				"stylua", -- Used to format Lua code
-				"yamlls",
-				"jdtls",
 			})
-			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
-			require("mason-lspconfig").setup({
-				handlers = {
-					function(server_name)
-						local server = servers[server_name] or {}
-						server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
-						require("lspconfig")[server_name].setup(server)
-					end,
-				},
+			vim.lsp.enable({
+				"gopls",
+				"jdtls",
+				"kotlin_language_server",
+				"lua_ls",
+				"pyright",
+				"pylsp",
+				"rust_analyzer",
+				"ts_ls",
 			})
 		end,
 	},
@@ -415,25 +366,6 @@ require("lazy").setup({
 		opts = {
 			auto_install = true,
 			autotag = { enable = true },
-			ensure_installed = {
-				"bash",
-				"css",
-				"dockerfile",
-				"go",
-				"html",
-				"java",
-				"javascript",
-				"json",
-				"kotlin",
-				"lua",
-				"markdown",
-				"python",
-				"rust",
-				"sql",
-				"typescript",
-				"vim",
-				"yaml",
-			},
 			highlight = { enable = true },
 			indent = { enable = true, disable = { "ruby" } },
 			textobjects = {
@@ -460,21 +392,11 @@ require("lazy").setup({
 						["]a"] = "@parameter.inner",
 						["]b"] = "@block.outer",
 					},
-					goto_next_end = {
-						["]M"] = "@function.outer",
-						["]["] = "@class.outer",
-					},
 					goto_previous_start = {
 						["[m"] = "@function.outer",
 						["[["] = "@class.outer",
 						["[a"] = "@parameter.inner",
 						["[b"] = "@block.outer",
-					},
-					goto_previous_end = {
-						["[M"] = "@function.outer",
-						["[]"] = "@class.outer",
-						["[A"] = "@parameter.outer",
-						["[B"] = "@block.outer",
 					},
 				},
 			},

@@ -1,29 +1,27 @@
-# vi mode for bash
-set -o vi
-
 # shell env
+set -o vi
 export LANG="de_DE.utf8"
 export EDITOR="/sbin/nvim"
 export VISUAL="/sbin/nvim"
 export LC_MESSAGES="de_DE.utf8"
+export HISTCONTROL=ignoreboth:erasedups
+LC_MESSAGES=C # en in shell itself
 
 # alias
 alias bc='bc -q'
-alias duu="du -h -d1"
-alias l="ls -1"
-alias ll="ls -lah --time-style=long-iso"
-alias ipadcon="ifuse --documents org.mozilla.ios.Firefox /media/knut/ipad/"
-alias ipadrem="fusermount -u /media/knut/ipad"
+alias ll="ls -Ahl"
+alias l="ls -Ah1"
 alias open="xdg-open"
+alias vi="nvim"
 alias panchostart="wol 00:24:1D:DC:B6:93"
 alias panchostop="ssh -t pancho 'sudo /sbin/poweroff'"
-alias vi="nvim"
 alias zi="sudo extpool.sh"
 alias zx="sudo zpool export extpool"
 #alias rebase-develop="git rebase -i HEAD~$(git rev-list --count HEAD ~develop)"
 
 # gpu accel
 export VDPAU_DRIVER=va_gl
+export RUSTICL_ENABLE=iris
 
 # cd backup
 alias cdbackup='abcde -o flac -acddb,tag,playlist,cue,move,clean -N -x'
@@ -33,7 +31,6 @@ export GOROOT=/usr/lib/go
 #export GOPATH=$HOME/dev/go
 export GOPATH=$HOME/work/gvl/go
 export PATH="${PATH}:${GOPATH}/bin"
-#export GOPRIVATE="gitlab.gvl.local"
 
 # npm
 export PATH="${PATH}:./node_modules/.bin"

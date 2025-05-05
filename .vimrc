@@ -55,8 +55,8 @@ nnoremap <leader><leader> <c-^>" toggle between buffers
 map <C-n> :cnext<CR>
 map <C-m> :cprevious<CR>
 nnoremap <leader>a :cclose<CR>
-vnoremap <C-h> :nohlsearch<cr>
-nnoremap <C-h> :nohlsearch<cr>
+vnoremap <C-l> :nohlsearch<cr>
+nnoremap <C-l> :nohlsearch<cr>
 
 " search moves keep cursor centered
 :nnoremap n nzz
