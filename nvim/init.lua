@@ -287,69 +287,22 @@ require("lazy").setup({
 		lazy = false,
 	},
 	]]
-
+	--[[{
+		"williamboman/mason.nvim",
+		config = function()
+			require("mason").setup()
+		end,
+	},
+	]]
 	{ -- language support
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			{ "folke/neodev.nvim", opts = {} },
-			{ "mfussenegger/nvim-jdtls" },
-		},
 		config = function()
 			vim.lsp.config("*", {})
-			-- java
-			local java_on_attach = function(_, bufnr)
-				require("jdtls").setup_dap()
-				require("jdtls.setup")
-				require("jdtls.dap").setup_dap_main_class_configs()
-			end
-			local java_code_format = vim.fn.stdpath("config") .. "/eclipse-java-google-style.xml"
-			local java_bundles = {
-				vim.fn.glob(
-					vim.fn.stdpath("data")
-						.. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar",
-					true
-				),
-			}
-			vim.list_extend(
-				java_bundles,
-				vim.split(
-					vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-test/extension/server/*.jar", true),
-					"\n"
-				)
-			)
-			local java_project = vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-			local java_ws = vim.fn.stdpath("cache") .. "/jdtls/workspace/" .. java_project
-			vim.lsp.config("jdtls", {
-				on_attach = java_on_attach,
-				flags = {
-					server_side_fuzzy_completion = true,
-				},
-				init_options = {
-					bundles = java_bundles,
-				},
-				settings = {
-					java = {
-						configuration = {
-							runtimes = {
-								{ name = "JavaSE-17", path = "/usr/lib/jvm/java-17-openjdk/" },
-								{ name = "JavaSE-21", path = "/usr/lib/jvm/java-21-openjdk/" },
-							},
-						},
-						format = {
-							settings = {
-								url = java_code_format,
-								profile = "GoogleStyle",
-							},
-						},
-					},
-				},
-			})
 			vim.lsp.enable({
 				"gopls",
 				"jdtls",
 				"kotlin_language_server",
 				"lua_ls",
-				"pyright",
 				"pylsp",
 				"rust_analyzer",
 				"ts_ls",
@@ -366,7 +319,7 @@ require("lazy").setup({
 		opts = {
 			auto_install = true,
 			autotag = { enable = true },
-			highlight = { enable = true },
+			highlight = { enable = false },
 			indent = { enable = true, disable = { "ruby" } },
 			textobjects = {
 				select = {
@@ -413,27 +366,48 @@ require("lazy").setup({
 		dependencies = {
 			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
-			"williamboman/mason.nvim",
-			"jay-babu/mason-nvim-dap.nvim",
 			"leoluz/nvim-dap-go",
 		},
 		config = function()
 			local dap = require("dap")
-			local dapui = require("dapui")
-			require("mason-nvim-dap").setup({
-				automatic_installation = true,
-				automatic_setup = true,
-				handlers = {},
-				ensure_installed = {
-					"delve",
+			dap.adapters.lldb = {
+				type = "executable",
+				command = "/usr/bin/lldb-dap",
+				name = "lldb",
+			}
+			dap.configurations.rust = {
+				{
+					name = "Launch",
+					type = "lldb",
+					request = "launch",
+					program = function()
+						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+					end,
+					cwd = "${workspaceFolder}",
+					stopOnEntry = false,
+					args = {},
+					initCommands = function()
+						local rustc_sysroot = vim.fn.trim(vim.fn.system("rustc --print sysroot"))
+						assert(
+							vim.v.shell_error == 0,
+							"failed to get rust sysroot using `rustc --print sysroot`: " .. rustc_sysroot
+						)
+						local script_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_lookup.py"
+						local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
+						return {
+							([[!command script import '%s']]):format(script_file),
+							([[command source '%s']]):format(commands_file),
+						}
+					end,
 				},
-			})
+			}
+			local dapui = require("dapui")
 			vim.keymap.set("n", "<leader>dc", dap.continue)
 			vim.keymap.set("n", "<leader>dj", dap.step_into)
 			vim.keymap.set("n", "<leader>dk", dap.step_out)
 			vim.keymap.set("n", "<leader>dl", dap.step_over)
-			vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint)
-			vim.keymap.set("n", "<leader>db", function()
+			vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
+			vim.keymap.set("n", "<leader>B", function()
 				dap.set_breakpoint(vim.fn.input("breakpoint condition: "))
 			end)
 			vim.keymap.set("n", "<leader>dd", dap.run_last)
@@ -442,7 +416,7 @@ require("lazy").setup({
 			vim.keymap.set("n", "<F8>", dap.step_over)
 			vim.keymap.set("n", "<F12>", dap.step_out)
 			-- Dap UI setup: see |:help nvim-dap-ui|
-			--dapui.setup({})
+			dapui.setup({})
 			vim.keymap.set("n", "du", dapui.toggle)
 			dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 			dap.listeners.before.event_terminated["dapui_config"] = dapui.close
