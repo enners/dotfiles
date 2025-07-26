@@ -1,0 +1,81 @@
+set realname = "Knut Enners"
+set editor   = 'nvim +/^$ "+setlocal fo+=w spell" +noh'
+
+set alias_file = ~/.config/mutt/aliases # only to save; ridiculous
+set auto_edit
+set collapse_unread="no"
+set envelope_from=yes
+set fast_reply
+set header_cache = ~/.cache/mutt
+set imap_check_subscribed
+set imap_condstore = yes
+set imap_idle
+set imap_keepalive = 300
+set imap_qresync = yes
+set mailcap_path 	= ~/.config/mutt/mailcap
+set mail_check = 120
+set message_cachedir = ~/.cache/mutt
+set mime_forward = no
+set mime_forward_rest = yes
+set pager_index_lines = 10
+set pgp_auto_decode=yes
+set send_charset = "us-ascii:utf-8"
+set sidebar_visible = no
+set sleep_time = 0
+set sort = "threads"
+set sort_aux="reverse-last-date-received"
+set ssl_force_tls = yes
+set strict_threads="yes"
+set text_flowed
+set wait_key = no
+set wrap = 80
+
+unset imap_passive
+unset imap_peek
+alternative_order text/plain text/html
+auto_view text/html
+
+source $alias_file 
+
+# general keybindings
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind attach,index,pager gg noop
+bind attach,index gg first-entry
+bind pager gg top
+bind attach,index G last-entry
+bind pager G bottom
+bind pager,attach h exit
+macro browser h '<change-dir><kill-line>..<enter>' "Go to parent folder"
+bind index j next-entry
+bind pager j next-line
+bind index k previous-entry
+bind pager k previous-line
+bind index l display-message
+bind pager l view-attachments
+bind index - collapse-thread
+bind index _ collapse-all
+bind index <space> tag-entry
+bind index,pager B sidebar-toggle-visible
+bind index,pager S sync-mailbox
+bind pager H display-toggle-weed
+macro index I '<change-folder>!<enter>'
+
+# accounts
+set folder = ~/.local/share/mail
+set record = +Sent 
+source "~/.config/mutt/gmail"
+source "~/.config/mutt/gmx"
+folder-hook 'gmx.net' 'source ~/.config/mutt/gmx'
+folder-hook 'gmail.com' 'source ~/.config/mutt/gmail'
+
+macro index 'c' '<change-folder>?<change-dir><home>^K=<enter>'
+macro index,pager <f2> '<sync-mailbox><enter-command>source ~/.config/mutt/gmx<enter><change-folder>!<enter>'
+macro index,pager <f3> '<sync-mailbox><enter-command>source ~/.config/mutt/gmail<enter><change-folder>!<enter>'
+
+# clickable urls
+macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan"
+macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan"
+
+# style
+source "~/.config/mutt/gruvbox.colors"

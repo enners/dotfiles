@@ -10,8 +10,6 @@ vim.g.loaded_python3_provider = 0
 
 vim.opt.autowrite = true
 vim.opt.background = "dark"
-vim.opt.backupdir = "/tmp"
-vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.cmdheight = 2
 vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
@@ -27,22 +25,21 @@ vim.opt.listchars = "tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•"
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 10
-vim.opt.shiftwidth = 3
+vim.opt.shiftwidth = 4
 vim.opt.signcolumn = "yes"
 vim.opt.smartcase = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.tabstop = 4
+vim.opt.termguicolors = true
 vim.opt.undofile = true
-vim.opt.updatetime = 300
 vim.opt.wildmode = "list:longest"
 vim.opt.wrap = false
 
-vim.cmd.colorscheme("lunaperche")
+--vim.cmd.colorscheme("lunaperche")
 vim.cmd.highlight("Normal ctermbg=none guibg=none")
 vim.cmd.highlight("NonText ctermbg=none guibg=none")
 vim.cmd.highlight("NormalFloat ctermbg=none guibg=none")
---vim.cmd.highlight("MatchParen ctermbg=darkgreen guibg=darkgreen cterm=bold")
 
 --
 -- key bindings
@@ -51,9 +48,12 @@ vim.keymap.set("n", "<leader><leader>", "<c-^>") -- toggle between buffers
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>")
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y') -- copy to sys clipboard
+vim.keymap.set("n", "<leader>Y", '"+Y')
 vim.keymap.set("i", "<C-a>", "<Home>", { silent = true }) -- readline style edit
 vim.keymap.set("i", "<C-e>", "<End>", { silent = true })
 vim.keymap.set("i", "<C-w>", "<C-o>db", { silent = true })
+vim.keymap.set("x", "<leader>p", '"_dP') -- paste preserving clipboard content
 --
 -- autocommands
 -- See `:help lua-guide-autocommands`
@@ -301,7 +301,6 @@ require("lazy").setup({
 			vim.lsp.enable({
 				"gopls",
 				"jdtls",
-				"kotlin_language_server",
 				"lua_ls",
 				"pylsp",
 				"rust_analyzer",
@@ -319,7 +318,7 @@ require("lazy").setup({
 		opts = {
 			auto_install = true,
 			autotag = { enable = true },
-			highlight = { enable = false },
+			highlight = { enable = true },
 			indent = { enable = true, disable = { "ruby" } },
 			textobjects = {
 				select = {

@@ -1,0 +1,30 @@
+set my_addr_gmail="`pass mail/gmail | grep mail | cut -d " " -f 2`"
+set my_user_gmail="`pass mail/gmail | grep user | cut -d " " -f 2`"
+set my_pw_gmail="`pass mail/gmail | head -n1`"
+
+alias me knut <$my_addr_gmail>
+set from = $my_addr_gmail
+
+set folder          = imaps://$my_user_gmail@imap.gmail.com/
+set imap_user       = $my_addr_gmail
+set imap_pass       = $my_pw_gmail
+set postponed       = +[Gmail]/Entwürfe
+set spoolfile       = +INBOX
+mailboxes           = +INBOX
+
+set smtp_url        = "smtps://$my_addr_gmail@smtp.gmail.com"
+set smtp_pass       = $my_pw_gmail
+set record          = "+[Gmail]/Gesendet"
+unset ssl_starttls
+
+unmailboxes *
+set timeout=15
+
+macro index,pager gi '<change-folder>+Inbox<tab><enter>' "go to inbox"
+macro index,pager ga '<change-folder>+[Gmail]/Alle%20Nachrichten<tab><enter>' "go to archive"
+macro index,pager go '<change-folder>+[Gmail]/Gesendet<tab><enter>' "go to out"
+macro index,pager A ';<save-message>+[Gmail]/Alle%20Nachrichten<tab><enter><enter>' "archive"
+macro index,pager J ';<save-message>+[Gmail]/Spam<tab><enter><enter>' "move to spam"
+
+account-hook $folder "set imap_user=$my_addr_gmail imap_pass=$my_pw_gmail"
+

@@ -13,6 +13,9 @@ action = "DecreaseFontSize"
 key = "Minus"
 mods = "Control"
 
+[colors]
+transparent_background_colors = true
+
 [colors.cursor]
 cursor = "0xF7F7F7"
 text = "0x222222"
@@ -36,7 +39,7 @@ normal.family = "IBM Plex Mono"
 size = 17
 
 [window]
-opacity = 0.95
+opacity = 0.85
 title = "shell"
 
 [window.padding]

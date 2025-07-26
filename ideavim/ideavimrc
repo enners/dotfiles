@@ -3,14 +3,24 @@ let mapleader = "\<Space>"
 set clipboard+=unnamedplus
 set number
 set relativenumber
+set ideajoin
 
-autocmd InsertEnter * :set norelativenumber
-autocmd InsertLeave * :set relativenumber
+" search
+set hlsearch
+set incsearch
+set showmatch
+set ignorecase
+set smartcase
+
+:nnoremap <leader><leader> <C-^>
+:nnoremap <silent> <Esc> :nohlsearch<CR>
 
 "activate build-in plugins
 Plug 'tpope/vim-surround'
 
 "actions
+:map <leader>p <Action>(SimplePaste)
+:map <leader>P <Action>(PasteMultiple)
 :map <leader>w <Action>(SaveAll)
 :map <leader>d <Action>(Debug)
 :map <leader>b <Action>(ToggleLineBreakpoint)
@@ -18,6 +28,5 @@ Plug 'tpope/vim-surround'
 :map <leader>tf <Action>(Rerun-Failed-Tests)
 
 :map <leader>ro <Action>(OptimizeImports)
-:map <leader>rw <Action>(RenameElement)
+:map grn <Action>(RenameElement)
 :map <leader>ll <Action>(Javascript.Linters.EsLint.Fix)
-

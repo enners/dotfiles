@@ -1,0 +1,30 @@
+set my_addr_gmx="`pass mail/gmx | grep mail | cut -d " " -f 2`"
+set my_pw_gmx="`pass mail/gmx | head -n1`"
+
+alias me knut <$my_addr_gmx>
+set from = $my_addr_gmx
+
+set folder          = imaps://$my_addr_gmx@imap.gmx.net:993/
+set imap_user       = $my_addr_gmx
+set imap_pass       = $my_pw_gmx
+set ssl_starttls    = yes
+set postponed       = +Drafts
+set spoolfile       = +INBOX
+mailboxes           = +INBOX
+
+set smtp_url        = "smtps://$my_addr_gmx@smtp.gmx.net"
+set smtp_pass       = $my_pw_gmx
+set record          = "+Gesendet"
+
+save-hook . '+Archive'
+set timeout=15
+unmailboxes *
+
+bind attach,index,pager g noop
+macro index,pager gi '<change-folder>+Inbox<tab><enter>' "go to inbox"
+macro index,pager ga '<change-folder>+Archive<tab><enter>' "go to archive"
+macro index,pager go '<change-folder>+Gesendet<tab><enter>' "go to out"
+macro index,pager A ';<save-message>+Archive<tab><enter><enter>' "archive"
+macro index,pager J ';<save-message>+Spamverdacht<tab><enter><enter>' "move to spam"
+
+account-hook $folder "set imap_user=$my_addr_gmx imap_pass=$my_pw_gmx"

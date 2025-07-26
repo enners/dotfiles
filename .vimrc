@@ -10,7 +10,6 @@ set autoindent " nvim default
 set autowrite
 set background=dark
 set backspace=indent,eol,start "nvim default 
-set backupdir=/tmp
 set clipboard+=unnamedplus
 set cmdheight=2
 set diffopt+=iwhite,indent-heuristic,algorithm:histogram,vertical
@@ -21,7 +20,6 @@ set nobackup
 set nocompatible
 set nofoldenable
 set nowrap
-set nowritebackup
 set number
 set path=$PWD/**
 set relativenumber
