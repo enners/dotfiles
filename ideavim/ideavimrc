@@ -28,5 +28,9 @@ Plug 'tpope/vim-surround'
 :map <leader>tf <Action>(Rerun-Failed-Tests)
 
 :map <leader>ro <Action>(OptimizeImports)
+:map grr <Action>(ShowUsages)
 :map grn <Action>(RenameElement)
+:map gri <Action>(GotoImplementation<CR>)
+:map grt <Action>(GotoTypeDeclaration<CR>)
 :map <leader>ll <Action>(Javascript.Linters.EsLint.Fix)
+:map <leader>fb <Action>(Vcs.ShowTabbedFileHistory)

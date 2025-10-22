@@ -123,6 +123,21 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- plugins :Lazy
 require("lazy").setup({
+	--[[
+	{
+		"zenbones-theme/zenbones.nvim",
+		-- dependencies = "rktjmp/lush.nvim", -- more config and extending colors
+		lazy = false,
+		priority = 1000,
+		config = function()
+			vim.g.zenbones_compat = 1 -- lush dep not installed
+			vim.g.zenbones_darken_comments = 45
+			vim.g.zenbones_transparent_background = true
+			vim.cmd.colorscheme("zenbones")
+		end,
+	},
+	]]
+
 	{ "tpope/vim-fugitive" }, -- git support
 
 	{
@@ -143,6 +158,10 @@ require("lazy").setup({
 			vim.g.rustfmt_fail_silently = 0
 			vim.g.rust_clip_command = "wl-copy"
 		end,
+	},
+
+	{ -- java
+		"mfussenegger/nvim-jdtls",
 	},
 
 	{ -- sql
@@ -294,10 +313,26 @@ require("lazy").setup({
 		end,
 	},
 	]]
+
 	{ -- language support
 		"neovim/nvim-lspconfig",
 		config = function()
 			vim.lsp.config("*", {})
+			vim.lsp.config("jdtls", {
+				init_options = {
+					jvm_args = { "-javaagent:/usr/lib/lombok-common/lombok.jar" },
+				},
+				settings = {
+					java = {
+						configuration = {
+							runtimes = {
+								{ name = "JavaSE-17", path = "/usr/lib/jvm/java-17-openjdk/" },
+								{ name = "JavaSE-21", path = "/usr/lib/jvm/java-21-openjdk/", default = true },
+							},
+						},
+					},
+				},
+			})
 			vim.lsp.enable({
 				"gopls",
 				"jdtls",
