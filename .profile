@@ -8,12 +8,15 @@ LC_MESSAGES=C # en in shell itself
 
 # alias
 alias bc='bc -q'
-alias ll="ls -Ahl"
+alias gnucash='env LC_MESSAGES=de_DE.utf8 gnucash'
+alias htop="btm -b --theme nord"
 alias l="ls -Ah1"
+alias ll="ls -Ahl"
 alias open="xdg-open"
-alias vi="nvim"
 alias panchostart="wol 00:24:1D:DC:B6:93"
 alias panchostop="ssh -t pancho 'sudo /sbin/poweroff'"
+alias sysupdate="sudo pacman -Suy && rua upgrade && rustup update"
+alias vi="nvim"
 alias zi="sudo extpool.sh"
 alias zx="sudo zpool export extpool"
 #alias rebase-develop="git rebase -i HEAD~$(git rev-list --count HEAD ~develop)"
@@ -55,7 +58,7 @@ export BEMENU_BACKEND="wayland"
 export XDG_CURRENT_DESKTOP=sway
 export MOZ_ENABLE_WAYLAND=1
 export GDK_SCALE=2
-#export GDK_DPI_SCALE=0.5
+#export GDK_DPI_SCALE=1.5
 export QT_AUTO_SCREEN_SCALE_FACTOR=2
 
 # keyboard layout
@@ -64,3 +67,6 @@ export XKB_DEFAULT_OPTIONS=grp:alt_shift_toggle
 
 # passwords
 export PASSWORD_STORE_DIR="/home/knut/.local/share/pass"
+
+# ICE project settings
+source ~/work/ice/cfg/profile.sh

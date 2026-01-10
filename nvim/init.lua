@@ -10,7 +10,6 @@ vim.g.loaded_python3_provider = 0
 
 vim.opt.autowrite = true
 vim.opt.background = "dark"
-vim.opt.cmdheight = 2
 vim.opt.colorcolumn = "80"
 vim.opt.cursorline = true
 vim.opt.diffopt:append("algorithm:histogram")
@@ -23,6 +22,7 @@ vim.opt.inccommand = "split" -- Preview substitutions live, as you type!
 vim.opt.list = true
 vim.opt.listchars = "tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•"
 vim.opt.number = true
+vim.opt.path = "**"
 vim.opt.relativenumber = true
 vim.opt.scrolloff = 10
 vim.opt.shiftwidth = 4
@@ -34,19 +34,20 @@ vim.opt.tabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.opt.wildmode = "list:longest"
+vim.opt.winborder = "single"
 vim.opt.wrap = false
 
---vim.cmd.colorscheme("lunaperche")
 vim.cmd.highlight("Normal ctermbg=none guibg=none")
 vim.cmd.highlight("NonText ctermbg=none guibg=none")
 vim.cmd.highlight("NormalFloat ctermbg=none guibg=none")
-
+vim.cmd.highlight("ColorColumn ctermbg=NONE guibg=NvimDarkGray3")
 --
 -- key bindings
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 vim.keymap.set("n", "<leader><leader>", "<c-^>") -- toggle between buffers
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+vim.keymap.set("n", "<leader>qq", vim.diagnostic.setqflist)
 vim.keymap.set("n", "<leader>w", "<cmd>w<cr>")
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y') -- copy to sys clipboard
 vim.keymap.set("n", "<leader>Y", '"+Y')
@@ -54,6 +55,7 @@ vim.keymap.set("i", "<C-a>", "<Home>", { silent = true }) -- readline style edit
 vim.keymap.set("i", "<C-e>", "<End>", { silent = true })
 vim.keymap.set("i", "<C-w>", "<C-o>db", { silent = true })
 vim.keymap.set("x", "<leader>p", '"_dP') -- paste preserving clipboard content
+
 --
 -- autocommands
 -- See `:help lua-guide-autocommands`
@@ -103,7 +105,7 @@ for _, ft in ipairs({ "mail", "gitcommit" }) do
 	})
 end
 local wtxt = vim.api.nvim_create_augroup("widetext", { clear = true })
-for _, ft in ipairs({ "java", "rust", "typescript" }) do
+for _, ft in ipairs({ "java", "rust", "python", "typescript" }) do
 	vim.api.nvim_create_autocmd("Filetype", {
 		pattern = ft,
 		group = wtxt,
@@ -123,20 +125,11 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- plugins :Lazy
 require("lazy").setup({
-	--[[
+
 	{
-		"zenbones-theme/zenbones.nvim",
-		-- dependencies = "rktjmp/lush.nvim", -- more config and extending colors
-		lazy = false,
-		priority = 1000,
-		config = function()
-			vim.g.zenbones_compat = 1 -- lush dep not installed
-			vim.g.zenbones_darken_comments = 45
-			vim.g.zenbones_transparent_background = true
-			vim.cmd.colorscheme("zenbones")
-		end,
+		"j-hui/fidget.nvim",
+		opts = {}, -- progress bottom right corner
 	},
-	]]
 
 	{ "tpope/vim-fugitive" }, -- git support
 
@@ -150,14 +143,49 @@ require("lazy").setup({
 		end,
 	},
 
-	{ -- rust
-		"rust-lang/rust.vim",
+	{ -- test support
+		"nvim-neotest/neotest",
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"nvim-lua/plenary.nvim",
+			"antoinemadec/FixCursorHold.nvim",
+			"nvim-treesitter/nvim-treesitter",
+			"rouge8/neotest-rust",
+		},
+		keys = {
+			{
+				"<leader>ut",
+				function()
+					require("neotest").run.run()
+				end,
+				mode = "n",
+			},
+			{
+				"<leader>ud",
+				function()
+					require("neotest").run.run({ strategy = "dap" })
+				end,
+				mode = "n",
+			},
+		},
 		config = function()
-			vim.g.rustfmt_autosave = 1
-			vim.g.rustfmt_emit_files = 1
-			vim.g.rustfmt_fail_silently = 0
-			vim.g.rust_clip_command = "wl-copy"
+			require("neotest").setup({
+				adapters = {
+					require("neotest-rust")({}),
+					require("neotest-java")({}),
+				},
+			})
 		end,
+	},
+	{
+		"rcasia/neotest-java",
+		ft = "java",
+		dependencies = {
+			"mfussenegger/nvim-jdtls",
+			"mfussenegger/nvim-dap",
+			"rcarriga/nvim-dap-ui",
+			"theHamsta/nvim-dap-virtual-text",
+		},
 	},
 
 	{ -- java
@@ -229,8 +257,11 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>fs", telescope.live_grep)
 		end,
 	},
-
-	{ -- autoformat
+	--[[
+--]]
+	-- autoformat
+	--[[
+	{ 
 		"stevearc/conform.nvim",
 		lazy = false,
 		keys = {
@@ -256,10 +287,13 @@ require("lazy").setup({
 			formatters_by_ft = {
 				lua = { "stylua" },
 				java = { "google-java-format" },
-				javascript = { { "prettierd", "prettier" } },
+				json = { "jq" },
+				javascript = { "prettierd", "prettier" },
+				python = { "ruff" },
 			},
 		},
 	},
+	--]]
 
 	{ -- omnifunc++
 		"hrsh7th/nvim-cmp",
@@ -284,7 +318,7 @@ require("lazy").setup({
 					["<Tab>"] = cmp.mapping.select_next_item(),
 					["<C-p>"] = cmp.mapping.select_prev_item(),
 					["<S-Tab>"] = cmp.mapping.select_prev_item(),
-					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<CR>"] = cmp.mapping.confirm({ select = false }),
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
 					["<C-Space>"] = cmp.mapping.complete({}),
@@ -317,7 +351,29 @@ require("lazy").setup({
 	{ -- language support
 		"neovim/nvim-lspconfig",
 		config = function()
+			-- see :h lsp-defaults and lsp-config
 			vim.lsp.config("*", {})
+			-- see https://rust-analyzer.github.io/book/configuration.html
+			vim.lsp.config("rust_analyzer", {
+				settings = {
+					["rust-analyzer"] = {
+						cargo = {
+							features = "all",
+						},
+						check = {
+							command = "clippy",
+						},
+						checkOnSave = {
+							enable = true,
+						},
+						imports = {
+							group = {
+								enable = false,
+							},
+						},
+					},
+				},
+			})
 			vim.lsp.config("jdtls", {
 				init_options = {
 					jvm_args = { "-javaagent:/usr/lib/lombok-common/lombok.jar" },
@@ -338,12 +394,35 @@ require("lazy").setup({
 				"jdtls",
 				"lua_ls",
 				"pylsp",
+				"ruff", -- python linter
 				"rust_analyzer",
 				"ts_ls",
 			})
+			vim.api.nvim_create_autocmd('LspAttach', {
+				group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+				callback = function(ev)
+					-- Enable completion triggered by <c-x><c-o>
+					vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+					local opts = { buffer = ev.buf }
+					vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+					vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+					vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+					vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+					vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+					vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+					vim.keymap.set('n', '<leader>wl', function()
+						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+					end, opts)
+					vim.keymap.set('n', '<leader>f', function()
+						vim.lsp.buf.format { async = true }
+					end, opts)
+				end,
+			})
 		end,
+
 	},
 
+	--[[
 	{ -- Highlight, edit, and navigate code
 		"nvim-treesitter/nvim-treesitter",
 		dependencies = {
@@ -375,7 +454,7 @@ require("lazy").setup({
 					set_jumps = true, -- whether to set jumps in the jumplist
 					goto_next_start = {
 						["]m"] = "@function.outer",
-						["]]"] = { query = "@class.outer", desc = "Next class start" },
+						["\]\]"] = { query = "@class.outer", desc = "Next class start" },
 						["]a"] = "@parameter.inner",
 						["]b"] = "@block.outer",
 					},
@@ -394,7 +473,9 @@ require("lazy").setup({
 			require("nvim-treesitter.configs").setup(opts)
 		end,
 	},
+		--]]
 
+	--[[
 	{ -- debug
 		"mfussenegger/nvim-dap",
 		dependencies = {
@@ -409,10 +490,15 @@ require("lazy").setup({
 				command = "/usr/bin/lldb-dap",
 				name = "lldb",
 			}
+			dap.adapters.codelldb = {
+				type = "executable",
+				command = "codelldb",
+				name = "codelldb",
+			}
 			dap.configurations.rust = {
 				{
 					name = "Launch",
-					type = "lldb",
+					type = "codelldb",
 					request = "launch",
 					program = function()
 						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
@@ -429,8 +515,8 @@ require("lazy").setup({
 						local script_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_lookup.py"
 						local commands_file = rustc_sysroot .. "/lib/rustlib/etc/lldb_commands"
 						return {
-							([[!command script import '%s']]):format(script_file),
-							([[command source '%s']]):format(commands_file),
+							(\[[!command script import '%s'\]\]):format(script_file),
+							([[command source '%s']\]):format(commands_file),
 						}
 					end,
 				},
@@ -452,10 +538,12 @@ require("lazy").setup({
 			-- Dap UI setup: see |:help nvim-dap-ui|
 			dapui.setup({})
 			vim.keymap.set("n", "du", dapui.toggle)
+			vim.keymap.set({ "v", "n" }, "de", dapui.eval)
 			dap.listeners.after.event_initialized["dapui_config"] = dapui.open
 			dap.listeners.before.event_terminated["dapui_config"] = dapui.close
 			dap.listeners.before.event_exited["dapui_config"] = dapui.close
 			require("dap-go").setup()
 		end,
 	},
+	--]]
 }, {})
