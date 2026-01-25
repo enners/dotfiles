@@ -5,6 +5,8 @@ export VISUAL="/sbin/nvim"
 export LC_MESSAGES="de_DE.utf8"
 export HISTCONTROL=ignoreboth:erasedups
 LC_MESSAGES=C # en in shell itself
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix'
+export FZF_CTRL_T_COMMAND="fd --strip-cwd-prefix"
 
 # alias
 alias bc='bc -q'

@@ -78,4 +78,5 @@ macro index,pager \cb "<pipe-message> urlscan<Enter>" "call urlscan"
 macro attach,compose \cb "<pipe-entry> urlscan<Enter>" "call urlscan"
 
 # style
-source "~/.config/mutt/gruvbox.colors"
+#source "~/.config/mutt/gruvbox.colors"
+source "~/.config/mutt/colors"
