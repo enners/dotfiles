@@ -105,7 +105,7 @@ for _, ft in ipairs({ "mail", "gitcommit" }) do
 	})
 end
 local wtxt = vim.api.nvim_create_augroup("widetext", { clear = true })
-for _, ft in ipairs({ "java", "rust", "python", "typescript" }) do
+for _, ft in ipairs({ "java", "kotlin", "python", "rust", "typescript" }) do
 	vim.api.nvim_create_autocmd("Filetype", {
 		pattern = ft,
 		group = wtxt,
@@ -352,7 +352,7 @@ require("lazy").setup({
 		"neovim/nvim-lspconfig",
 		config = function()
 			-- see :h lsp-defaults and lsp-config
-			vim.lsp.config("*", {})
+			-- vim.lsp.config("*", {})
 			-- see https://rust-analyzer.github.io/book/configuration.html
 			vim.lsp.config("rust_analyzer", {
 				settings = {

@@ -5,6 +5,10 @@ set my_pw_gmail="`pass mail/gmail | head -n1`"
 alias me knut <$my_addr_gmail>
 set from = $my_addr_gmail
 
+unset imap_user
+unset imap_pass
+unset smtp_pass
+
 set folder          = imaps://$my_user_gmail@imap.gmail.com/
 set imap_user       = $my_addr_gmail
 set imap_pass       = $my_pw_gmail
@@ -20,11 +24,12 @@ unset ssl_starttls
 unmailboxes *
 set timeout=15
 
+bind attach,index,pager g noop
 macro index,pager gi '<change-folder>+Inbox<tab><enter>' "go to inbox"
 macro index,pager ga '<change-folder>+[Gmail]/Alle%20Nachrichten<tab><enter>' "go to archive"
 macro index,pager go '<change-folder>+[Gmail]/Gesendet<tab><enter>' "go to out"
 macro index,pager A ';<save-message>+[Gmail]/Alle%20Nachrichten<tab><enter><enter>' "archive"
 macro index,pager J ';<save-message>+[Gmail]/Spam<tab><enter><enter>' "move to spam"
 
-account-hook $folder "set imap_user=$my_addr_gmail imap_pass=$my_pw_gmail"
+folder-hook $folder "set imap_user=$my_addr_gmail imap_pass=$my_pw_gmail"
 

@@ -12,17 +12,20 @@ set imap_condstore = yes
 set imap_idle
 set imap_keepalive = 300
 set imap_qresync = yes
-set mailcap_path 	= ~/.config/mutt/mailcap
+set include = yes
 set mail_check = 120
+set mailcap_path 	= ~/.config/mutt/mailcap
 set message_cachedir = ~/.cache/mutt
 set mime_forward = no
 set mime_forward_rest = yes
 set pager_index_lines = 10
 set pgp_auto_decode=yes
+set reverse_alias = yes
 set send_charset = "us-ascii:utf-8"
 set sidebar_visible = no
 set sleep_time = 0
 set sort = "threads"
+set sort_alias = alias
 set sort_aux="reverse-last-date-received"
 set ssl_force_tls = yes
 set strict_threads="yes"
@@ -40,7 +43,7 @@ source $alias_file
 # general keybindings
 bind attach,index,pager \CD next-page
 bind attach,index,pager \CU previous-page
-bind attach,index,pager gg noop
+bind attach,index,pager g noop
 bind attach,index gg first-entry
 bind pager gg top
 bind attach,index G last-entry
@@ -56,6 +59,7 @@ bind pager l view-attachments
 bind index - collapse-thread
 bind index _ collapse-all
 bind index <space> tag-entry
+bind index,pager t group-reply
 bind index,pager B sidebar-toggle-visible
 bind index,pager S sync-mailbox
 bind pager H display-toggle-weed
