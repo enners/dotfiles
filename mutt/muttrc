@@ -3,9 +3,10 @@ set editor   = 'nvim +/^$ "+setlocal fo+=w spell" +noh'
 
 set alias_file = ~/.config/mutt/aliases # only to save; ridiculous
 set auto_edit
-set collapse_unread="no"
-set envelope_from=yes
+set collapse_unread = no
+set envelope_from = yes
 set fast_reply
+set fcc_clear = no
 set header_cache = ~/.cache/mutt
 set imap_check_subscribed
 set imap_condstore = yes
@@ -14,12 +15,13 @@ set imap_keepalive = 300
 set imap_qresync = yes
 set include = yes
 set mail_check = 120
-set mailcap_path 	= ~/.config/mutt/mailcap
+set mailcap_path = ~/.config/mutt/mailcap
 set message_cachedir = ~/.cache/mutt
 set mime_forward = no
 set mime_forward_rest = yes
 set pager_index_lines = 10
-set pgp_auto_decode=yes
+set pgp_auto_decode = yes
+set pgp_self_encrypt = yes
 set reverse_alias = yes
 set send_charset = "us-ascii:utf-8"
 set sidebar_visible = no
@@ -28,7 +30,7 @@ set sort = "threads"
 set sort_alias = alias
 set sort_aux="reverse-last-date-received"
 set ssl_force_tls = yes
-set strict_threads="yes"
+set strict_threads = yes
 set text_flowed
 set wait_key = no
 set wrap = 80
@@ -67,7 +69,7 @@ macro index I '<change-folder>!<enter>'
 
 # accounts
 set folder = ~/.local/share/mail
-set record = +Sent 
+set record = +Sent
 source "~/.config/mutt/gmail"
 source "~/.config/mutt/gmx"
 folder-hook 'gmx.net' 'source ~/.config/mutt/gmx'

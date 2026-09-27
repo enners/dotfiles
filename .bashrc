@@ -66,3 +66,4 @@ PROMPT_COMMAND=${PROMPT_COMMAND:+$PROMPT_COMMAND; }osc7_cwd
 [ -f $HOME/.profile ] && . $HOME/.profile
 [ -f $HOME/.Xresources ] && xrdb $HOME/.Xresources
 
+eval "$(mise activate bash)"

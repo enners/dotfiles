@@ -25,6 +25,8 @@ set timeout=15
 unmailboxes *
 
 bind attach,index,pager g noop
+bind attach,index gg first-entry
+bind pager gg top
 macro index,pager gi '<change-folder>+Inbox<tab><enter>' "go to inbox"
 macro index,pager ga '<change-folder>+Archive<tab><enter>' "go to archive"
 macro index,pager go '<change-folder>+Gesendet<tab><enter>' "go to out"

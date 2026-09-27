@@ -17,7 +17,7 @@ alias ll="ls -Ahl"
 alias open="xdg-open"
 alias panchostart="wol 00:24:1D:DC:B6:93"
 alias panchostop="ssh -t pancho 'sudo /sbin/poweroff'"
-alias sysupdate="sudo pacman -Suy && rua upgrade && rustup update"
+alias sysupdate="sudo pacman -Syu && rua upgrade && flatpak update && rustup update && nvim --headless '+Lazy! sync' +qa"
 alias v="nvim"
 alias zi="sudo extpool.sh"
 alias zx="sudo zpool export extpool"
@@ -55,7 +55,7 @@ export WORKSPACE="$HOME/work"
 export GIT_PS1_SHOWDIRTYSTATE=1
 
 # fix wayland
-export _JAVA_AWT_WM_NONREPARENTING=1
+#export _JAVA_AWT_WM_NONREPARENTING=1
 export BEMENU_BACKEND="wayland"
 export XDG_CURRENT_DESKTOP=sway
 export MOZ_ENABLE_WAYLAND=1
@@ -70,5 +70,3 @@ export XKB_DEFAULT_OPTIONS=grp:alt_shift_toggle
 # passwords
 export PASSWORD_STORE_DIR="/home/knut/.local/share/pass"
 
-# ICE project settings
-source ~/work/ice/cfg/profile.sh
